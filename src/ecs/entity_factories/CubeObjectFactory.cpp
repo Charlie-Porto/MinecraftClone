@@ -13,10 +13,10 @@ cube factory.
 
 class CubeObjectFactory {
 public:
-  void MakeCube(const glm::dvec3& cube_center, const double& side_length) {
+  void MakeCube(const glm::dvec3& cube_center, const double& side_length, uint32_t parent_cube) {
     std::vector<glm::dvec3> cube_points = pce::cube::getCubeVertexLocations(cube_center, side_length);
     for (auto const& vertex : cube_points) {
-      vertex_factory_.MakeCubeVertex(vertex, 1);
+      vertex_factory_.MakeCubeVertex(vertex, parent_cube);
     }
   }
 

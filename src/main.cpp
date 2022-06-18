@@ -29,6 +29,7 @@
 /* factories */
 #include "ecs/entity_factories/SphereObjectFactory.cpp"
 #include "ecs/entity_factories/CubeObjectFactory.cpp"
+#include "ecs/entity_factories/CubeFloorManager.cpp"
 #include "ecs/entity_factories/AxisGenerator.cpp"
 
 /* other */
@@ -99,11 +100,9 @@ int main(int argc, const char * argv[]) {
     
     /* Create Factories */
     auto sphere_object_factory = SphereObjectFactory();
-    auto cube_object_factory = CubeObjectFactory();
-    // sphere_object_factory.MakeTestObject();
-    sphere_object_factory.MakeMoon();
-    cube_object_factory.MakeCube(glm::dvec3(5, 5, 5), 20);
-    cube_object_factory.MakeCube(glm::dvec3(15, -10, -6), 3);
+    auto cube_floor_manager = CubeFloorManager();
+    cube_floor_manager.GenerateCubeFloor(3.0, 20.0);
+    
     cube_render_system->PerformCubeOrganization();
     // for (int i = 0; i < 2; ++i) {
     //   sphere_object_factory.MakeObject();
@@ -143,7 +142,7 @@ int main(int argc, const char * argv[]) {
                                          camera_system->ProvideCameraFocusPosition());
         ray_trace_system->TraceSuperimposedEntities(cam_position_scalar);
         // ray_trace_system->TraceObjectCenters(cam_position_scalar);
-        ray_trace_system->UpdateRayTrace(cam_position_scalar);
+        // ray_trace_system->UpdateRayTrace(cam_position_scalar);
         cube_render_system->RenderCubes();
 
         /*~~~~~~~~~-------------- Draw and Render --------------------*/

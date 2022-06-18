@@ -27,7 +27,7 @@ public:
 
   void RenderCubes() { for (auto const& [key, value] : cubes_) {
       for (auto const& vertex : value) {
-        ezp::print_item("printing a vertex");
+        // ezp::print_item("printing a vertex");
         auto const& radar_a = control.GetComponent<pce::Radar>(vertex); 
         auto const& location_a = control.GetComponent<pce::Location>(vertex); 
         for (auto const& other_vertex : value) {
