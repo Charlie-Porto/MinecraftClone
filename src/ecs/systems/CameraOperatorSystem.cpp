@@ -18,7 +18,7 @@ namespace pce {
 class CameraOperatorSystem : public ISystem {
 public:
   void Init() {
-    camera_.location_vec3 = glm::dvec3(0.0, 0.0, 2000.0);
+    camera_.location_vec3 = glm::dvec3(0.0, 5.0, 2000.0);
     camera_.focus_point = glm::dvec3(0.0, 0.0, 0.0);
     camera_.xz_angle = 0.0;
     camera_.y_angle = 0.0;
@@ -43,6 +43,10 @@ public:
     return camera_.pov_scalar;
   }
 
+  const glm::dvec3 ProvideCameraPosition() const {
+    return camera_.location_vec3;
+  }
+
   void ToggleCameraMode() {
     // to write this function
   }
@@ -55,7 +59,9 @@ public:
       // ezp::print_item("CAMERA MODE: FREE ROAM");
       pce::cam_op::updateCameraPositionFreeRoam(camera_, keyboard_);
     }
-    ezp::print_labeled_item("camera position scalar: ", camera_.pov_scalar);
+    // ezp::print_labeled_item("camera position scalar: ", camera_.pov_scalar);
+      ezp::print_item("CAMERA POSITION: ");
+      vezp::print_dvec3(camera_.location_vec3);
   }
 
 private:

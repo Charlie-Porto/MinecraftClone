@@ -101,7 +101,7 @@ int main(int argc, const char * argv[]) {
     /* Create Factories */
     auto sphere_object_factory = SphereObjectFactory();
     auto cube_floor_manager = CubeFloorManager();
-    cube_floor_manager.GenerateCubeFloor(3.0, 20.0);
+    cube_floor_manager.GenerateCubeFloor(1.0, 20.0);
     
     cube_render_system->PerformCubeOrganization();
     // for (int i = 0; i < 2; ++i) {
@@ -143,7 +143,7 @@ int main(int argc, const char * argv[]) {
         ray_trace_system->TraceSuperimposedEntities(cam_position_scalar);
         // ray_trace_system->TraceObjectCenters(cam_position_scalar);
         // ray_trace_system->UpdateRayTrace(cam_position_scalar);
-        cube_render_system->RenderCubes();
+        cube_render_system->RenderCubes(camera_system->ProvideCameraPosition());
 
         /*~~~~~~~~~-------------- Draw and Render --------------------*/
         simulation->render();
