@@ -85,7 +85,7 @@ public:
       pce::raytrace::smarterCrawlTraceAtPixel(radar, rotated_location.rotated_position,
                                        sphere_body.radius, camera_pos_scalar, trace_log);
             
-      ezp::print_labeled_item("*******Trace Log Count *********   ", trace_log.size());
+      // ezp::print_labeled_item("*******Trace Log Count *********   ", trace_log.size());
       // ezp::print_item("*******Trace Log*********");
       // for (int i = 0; i < trace_log.size(); ++i) {
         // ezp::print_item("-------");

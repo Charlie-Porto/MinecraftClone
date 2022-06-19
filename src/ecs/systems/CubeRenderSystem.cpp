@@ -26,7 +26,7 @@ public:
 
   std::unordered_map<Entity, glm::dvec3> GetVerticesToCertainlyDraw(Cube& cube_component, const glm::dvec3& camera_location) {
     std::unordered_map<Entity, glm::dvec3> closest_vertices = pce::cube::getClosestCubePointsToCamera(
-      cube_component.original_vertices, camera_location);
+      cube_component.current_vertices, camera_location);
     std::unordered_map<Entity, glm::dvec3> vertices_to_draw = pce::cube::getCubeVerticesToDraw(
                                              cube_component.original_vertices, closest_vertices);
     return vertices_to_draw; 
@@ -41,8 +41,8 @@ public:
                                                                     cube, camera_location);
       for (auto const& [sure_key, sure_vertex] : vertices_to_draw) {
         for (auto const& [potential_key, potential_vertex] : cube.current_vertices) {
-          ezp::print_labeled_item("vertex: ", potential_key);
-          vezp::print_dvec3(potential_vertex);
+          // ezp::print_labeled_item("vertex: ", potential_key);
+          // vezp::print_dvec3(potential_vertex);
           if ((cube.original_vertices.at(sure_key).x == cube.original_vertices.at(potential_key).x
                && cube.original_vertices.at(sure_key).y == cube.original_vertices.at(potential_key).y)
             || (cube.original_vertices.at(sure_key).x == cube.original_vertices.at(potential_key).x

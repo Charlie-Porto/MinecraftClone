@@ -27,6 +27,7 @@
 #include "ecs/systems/CameraOperatorSystem.cpp"
 #include "ecs/systems/CubeRadarSystem.cpp"
 #include "ecs/systems/CubeRenderSystem.cpp"
+#include "ecs/systems/CubeMovementSystem.cpp"
 
 /* factories */
 #include "ecs/entity_factories/SphereObjectFactory.cpp"
@@ -106,15 +107,21 @@ int main(int argc, const char * argv[]) {
     cube_render_sig.set(control.GetComponentType<pce::CubeRadar>());
     control.SetSystemSignature<pce::CubeRenderSystem>(cube_render_sig);
 
+    auto cube_movement_system = control.RegisterSystem<pce::CubeMovementSystem>();
+    Signature cube_movement_sig;
+    cube_movement_sig.set(control.GetComponentType<pce::Cube>());
+    control.SetSystemSignature<pce::CubeMovementSystem>(cube_movement_sig);
+
+    cube_movement_system->SetRotationVersor();
     
     /* Create Factories */
     auto sphere_object_factory = SphereObjectFactory();
     // auto cube_floor_manager = CubeFloorManager();
     auto cube_object_factory = CubeObjectFactory();
     // cube_floor_manager.GenerateCubeFloor(1.0, 20.0);
-    cube_object_factory.MakeModernCube(glm::dvec3(0, 0, 0), 25.0);
-    cube_object_factory.MakeModernCube(glm::dvec3(40, 40, 40), 10.0);
-    cube_object_factory.MakeModernCube(glm::dvec3(10, 75, -28), 14.0);
+    cube_object_factory.MakeModernCube(glm::dvec3(0, 0, 0), 30.0);
+    // cube_object_factory.MakeModernCube(glm::dvec3(40, 40, 40), 10.0);
+    // cube_object_factory.MakeModernCube(glm::dvec3(10, 75, -28), 14.0);
     
     
     
@@ -152,6 +159,7 @@ int main(int argc, const char * argv[]) {
         double ticks = (SDL_GetTicks()/1000.0);
         camera_system->UpdateCamera();
         const double cam_position_scalar = camera_system->ProvideCameraPositionScalar();
+        cube_movement_system->RotateCubes();
         object_radar_system->UpdateRadar(cam_position_scalar,
                                          camera_system->ProvideCameraVersor(),
                                          camera_system->ProvideCameraFocusPosition());

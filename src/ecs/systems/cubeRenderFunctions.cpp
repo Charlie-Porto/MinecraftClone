@@ -18,7 +18,7 @@ std::unordered_map<Entity, glm::dvec3> getClosestCubePointsToCamera(
     const std::unordered_map<Entity, glm::dvec3>& vertices, const glm::dvec3& camera_position) {
   std::unordered_map<Entity, glm::dvec3> closest_points;
   double closest_distance = 0.0;
-  ezp::print_item("--------");
+  // ezp::print_item("--------");
   for (auto const& [key, value] : vertices) {
     const double distance = vfunc::calculateDistanceBetweenPosition3Vectors(value, camera_position);
     if (closest_distance == 0.0) {
@@ -33,8 +33,8 @@ std::unordered_map<Entity, glm::dvec3> getClosestCubePointsToCamera(
     }
   }
   for (auto const& [key, value] : closest_points) {
-    ezp::print_item(key);
-    vezp::print_dvec3(value);
+    // ezp::print_item(key);
+    // vezp::print_dvec3(value);
   }
   return closest_points;
 }
@@ -50,15 +50,18 @@ std::unordered_map<Entity, glm::dvec3> getCubeVerticesToDraw(
       if (value == value_closest) {
         if_draw = false;
         break;
-      } else if ((value.x == value_closest.x && value.y == value_closest.y)
-              || (value.x == value_closest.x && value.z == value_closest.z)
-              || (value.y == value_closest.y && value.z == value_closest.z)) {
+      // } else if ((value.x == value_closest.x && value.y == value_closest.y)
+              // || (value.x == value_closest.x && value.z == value_closest.z)
+              // || (value.y == value_closest.y && value.z == value_closest.z)) {
+      } else if ((value.x == vertices.at(key_closest).x && value.y == vertices.at(key_closest).y)
+              || (value.x == vertices.at(key_closest).x && value.z == vertices.at(key_closest).z)
+              || (value.y == vertices.at(key_closest).y && value.z == vertices.at(key_closest).z)) {
         continue;
       } else {if_draw = false; break;}
     }
     if (if_draw) {
-      ezp::print_labeled_item("Vertex to Certainly Draw: ", key);
-      vezp::print_dvec3(value);
+      // ezp::print_labeled_item("Vertex to Certainly Draw: ", key);
+      // vezp::print_dvec3(value);
       vertices_to_draw[key] = value;
     }
   }

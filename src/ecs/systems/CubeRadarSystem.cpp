@@ -26,10 +26,10 @@ void UpdateCubeRadar(const double camera_pos_scalar, const glm::dquat rotation_v
     auto& cube_radar = control.GetComponent<pce::CubeRadar>(entity);
     const std::unordered_map<uint32_t, glm::dvec3> vertices = cube.original_vertices;
     for (auto const& [key, value] : vertices) {
-      cube.current_vertices[key] = pce::radar::rotateObjectCenterPoint(cube.original_vertices.at(key),
+      cube.camera_rotated_vertices[key] = pce::radar::rotateObjectCenterPoint(cube.current_vertices.at(key),
                                                                        rotation_versor);
       cube_radar.vertex_hitpoints[key] = pce::radar::calculateObjectRadarLocation(
-                                      cube.current_vertices.at(key),
+                                      cube.camera_rotated_vertices.at(key),
                                       camera_pos_scalar);
       cube_radar.vertex_hitpoint_pixels[key] = pce::pix_map::convertPointOnViewSphereToPixel(
                                                    cube_radar.vertex_hitpoints.at(key),
@@ -38,7 +38,7 @@ void UpdateCubeRadar(const double camera_pos_scalar, const glm::dquat rotation_v
       // vezp::print_dvec3(value);
       // ezp::print_labeled_item("rotated vertex: ", key);
       // vezp::print_dvec3(cube.current_vertices.at(key));
-      pce::quickdraw::drawCircleAtVec2(cube_radar.vertex_hitpoint_pixels.at(key));
+      // pce::quickdraw::drawCircleAtVec2(cube_radar.vertex_hitpoint_pixels.at(key));
     }
   }
 }

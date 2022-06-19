@@ -9,6 +9,7 @@ namespace pce {
 struct Cube {
   std::unordered_map<uint32_t, glm::dvec3> original_vertices;
   std::unordered_map<uint32_t, glm::dvec3> current_vertices;
+  std::unordered_map<uint32_t, glm::dvec3> camera_rotated_vertices;
   glm::dquat rotation_versor;
 };
 

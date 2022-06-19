@@ -38,6 +38,7 @@ public:
     control.AddComponent(object, pce::Cube{
       .original_vertices = cube_points, 
       .current_vertices = cube_points, 
+      // .camera_rotation_vertices = cube_points, 
       .rotation_versor = glm::dquat(0, 0, 0, 1.0)
     });
     control.AddComponent(object, pce::CubeRadar{});

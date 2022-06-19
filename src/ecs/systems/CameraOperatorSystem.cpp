@@ -60,8 +60,8 @@ public:
       pce::cam_op::updateCameraPositionFreeRoam(camera_, keyboard_);
     }
     // ezp::print_labeled_item("camera position scalar: ", camera_.pov_scalar);
-      ezp::print_item("CAMERA POSITION: ");
-      vezp::print_dvec3(camera_.location_vec3);
+      // ezp::print_item("CAMERA POSITION: ");
+      // vezp::print_dvec3(camera_.location_vec3);
   }
 
 private:
