@@ -18,12 +18,14 @@
 #include "ecs/components/sphere_body_component.cpp"
 #include "ecs/components/radar_component.cpp"
 #include "ecs/components/surface_component.cpp"
-#include "ecs/components/cube_vertex_component.cpp"
+#include "ecs/components/cube_component.cpp"
+#include "ecs/components/cube_radar_component.cpp"
 
 /* systems */
 #include "ecs/systems/RayTraceSystem.cpp"
 #include "ecs/systems/ObjectRadarDetectorSystem.cpp"
 #include "ecs/systems/CameraOperatorSystem.cpp"
+#include "ecs/systems/CubeRadarSystem.cpp"
 #include "ecs/systems/CubeRenderSystem.cpp"
 
 /* factories */
@@ -66,7 +68,8 @@ int main(int argc, const char * argv[]) {
     control.RegisterComponent<pce::SphereBody>();
     control.RegisterComponent<pce::Radar>();
     control.RegisterComponent<pce::Surface>();
-    control.RegisterComponent<pce::CubeVertex>();
+    control.RegisterComponent<pce::Cube>();
+    control.RegisterComponent<pce::CubeRadar>();
 
     /* Register Systems */
     auto ray_trace_system = control.RegisterSystem<pce::RayTraceSystem>();
@@ -77,6 +80,7 @@ int main(int argc, const char * argv[]) {
     ray_trace_sig.set(control.GetComponentType<pce::Surface>());
     control.SetSystemSignature<pce::RayTraceSystem>(ray_trace_sig);
 
+
     auto object_radar_system = control.RegisterSystem<pce::ObjectRadarDetectorSystem>();
     Signature object_radar_sig;
     object_radar_sig.set(control.GetComponentType<pce::Location>());
@@ -84,26 +88,37 @@ int main(int argc, const char * argv[]) {
     object_radar_sig.set(control.GetComponentType<pce::Radar>());
     control.SetSystemSignature<pce::ObjectRadarDetectorSystem>(object_radar_sig);
 
+
     auto camera_system = control.RegisterSystem<pce::CameraOperatorSystem>();
     Signature camera_sig;
     control.SetSystemSignature<pce::CameraOperatorSystem>(camera_sig);
     camera_system->Init();
 
+    auto cube_radar_system = control.RegisterSystem<pce::CubeRadarSystem>();
+    Signature cube_radar_sig;
+    cube_radar_sig.set(control.GetComponentType<pce::Cube>());
+    cube_radar_sig.set(control.GetComponentType<pce::CubeRadar>());
+    control.SetSystemSignature<pce::CubeRadarSystem>(cube_radar_sig);
 
     auto cube_render_system = control.RegisterSystem<pce::CubeRenderSystem>();
     Signature cube_render_sig;
-    cube_render_sig.set(control.GetComponentType<pce::CubeVertex>());
-    cube_render_sig.set(control.GetComponentType<pce::Location>());
-    cube_render_sig.set(control.GetComponentType<pce::Radar>());
+    cube_render_sig.set(control.GetComponentType<pce::Cube>());
+    cube_render_sig.set(control.GetComponentType<pce::CubeRadar>());
     control.SetSystemSignature<pce::CubeRenderSystem>(cube_render_sig);
 
     
     /* Create Factories */
     auto sphere_object_factory = SphereObjectFactory();
-    auto cube_floor_manager = CubeFloorManager();
-    cube_floor_manager.GenerateCubeFloor(1.0, 20.0);
+    // auto cube_floor_manager = CubeFloorManager();
+    auto cube_object_factory = CubeObjectFactory();
+    // cube_floor_manager.GenerateCubeFloor(1.0, 20.0);
+    cube_object_factory.MakeModernCube(glm::dvec3(0, 0, 0), 25.0);
+    cube_object_factory.MakeModernCube(glm::dvec3(40, 40, 40), 10.0);
+    cube_object_factory.MakeModernCube(glm::dvec3(10, 75, -28), 14.0);
     
-    cube_render_system->PerformCubeOrganization();
+    
+    
+    
     // for (int i = 0; i < 2; ++i) {
     //   sphere_object_factory.MakeObject();
     // }
@@ -140,9 +155,12 @@ int main(int argc, const char * argv[]) {
         object_radar_system->UpdateRadar(cam_position_scalar,
                                          camera_system->ProvideCameraVersor(),
                                          camera_system->ProvideCameraFocusPosition());
+        cube_radar_system->UpdateCubeRadar(cam_position_scalar,
+                                           camera_system->ProvideCameraVersor(),
+                                           camera_system->ProvideCameraFocusPosition());
         ray_trace_system->TraceSuperimposedEntities(cam_position_scalar);
         // ray_trace_system->TraceObjectCenters(cam_position_scalar);
-        // ray_trace_system->UpdateRayTrace(cam_position_scalar);
+        ray_trace_system->UpdateRayTrace(cam_position_scalar);
         cube_render_system->RenderCubes(camera_system->ProvideCameraPosition());
 
         /*~~~~~~~~~-------------- Draw and Render --------------------*/

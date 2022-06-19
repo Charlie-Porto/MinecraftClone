@@ -21,7 +21,6 @@ std::unordered_map<Entity, glm::dvec3> getClosestCubePointsToCamera(
   ezp::print_item("--------");
   for (auto const& [key, value] : vertices) {
     const double distance = vfunc::calculateDistanceBetweenPosition3Vectors(value, camera_position);
-    ezp::print_labeled_item("cube vertex distance: ", distance);
     if (closest_distance == 0.0) {
       closest_distance = distance; 
       closest_points[key] = value;
@@ -32,6 +31,10 @@ std::unordered_map<Entity, glm::dvec3> getClosestCubePointsToCamera(
     } else if (closest_distance == distance) {
       closest_points[key] = value;
     }
+  }
+  for (auto const& [key, value] : closest_points) {
+    ezp::print_item(key);
+    vezp::print_dvec3(value);
   }
   return closest_points;
 }
@@ -45,14 +48,17 @@ std::unordered_map<Entity, glm::dvec3> getCubeVerticesToDraw(
     bool if_draw = true;
     for (auto const [key_closest, value_closest] : closest_vertices) {
       if (value == value_closest) {
+        if_draw = false;
         break;
       } else if ((value.x == value_closest.x && value.y == value_closest.y)
-                  || (value.x == value_closest.x && value.z == value_closest.z)
-                  || (value.y == value_closest.y && value.z == value_closest.z)) {
+              || (value.x == value_closest.x && value.z == value_closest.z)
+              || (value.y == value_closest.y && value.z == value_closest.z)) {
         continue;
       } else {if_draw = false; break;}
     }
     if (if_draw) {
+      ezp::print_labeled_item("Vertex to Certainly Draw: ", key);
+      vezp::print_dvec3(value);
       vertices_to_draw[key] = value;
     }
   }

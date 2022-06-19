@@ -19,7 +19,7 @@ void GenerateCubeFloor(const double cube_quantity_edge, const double cube_side_l
   while (i <= starting_x_and_z) {
     double j = -starting_x_and_z;
     while (j <= starting_x_and_z) {
-      cube_factory_.MakeCube(glm::dvec3(i, j, -cube_side_length), cube_side_length, cube_number_);
+      // cube_factory_.MakeCube(glm::dvec3(i, j, -cube_side_length), cube_side_length, cube_number_);
       j += cube_side_length;
       ++cube_number_;
     }

@@ -9,6 +9,7 @@
 namespace pce {
 
 struct Location {
+  glm::dvec3 original_position; // useful for cube functions
   glm::dvec3 position;
 };
 

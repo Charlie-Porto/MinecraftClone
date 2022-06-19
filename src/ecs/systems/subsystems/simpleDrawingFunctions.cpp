@@ -67,7 +67,7 @@ void drawCircleAtVec2(glm::vec2 point) {
   // ezp::print_item("drawing circle at Vec2");
   // vezp::print_dvec2(point);
   const glm::vec2 sdl_transform = ConvertCartesianCoordinatesToSDL(point);
-  drawCircle(sdl_transform.x, sdl_transform.y, 15, mcolor, Simulation::renderer);
+  drawCircle(sdl_transform.x, sdl_transform.y, 3, mcolor, Simulation::renderer);
 }
 
 }
